@@ -19,7 +19,7 @@ const projectRoutes = require('./routes/projectRoutes');
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:5173', // or the port where your frontend runs
+  origin: ['http://localhost:5173','https://technoviaan.com'], // or the port where your frontend runs
   credentials: true
 }));
 app.use(express.json());
@@ -51,9 +51,12 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true
 }).then(() => {
   console.log('MongoDB Connected');
-  app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`);
-  });
+  const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 }).catch(err => {
   console.error('MongoDB connection failed:', err.message);
 });
