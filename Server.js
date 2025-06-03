@@ -46,7 +46,7 @@ app.use('/api/projects', projectRoutes);
 
 
 // MongoDB connection
-app.use(contactRoute);
+
 
 app.get("/", (req, res) => {
 res.status(200).json("API is running");
