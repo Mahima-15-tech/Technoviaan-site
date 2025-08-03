@@ -23,6 +23,30 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// POST /api/admin/reset-password
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    if (!email || !newPassword) {
+      return res.status(400).json({ message: 'Email and newPassword are required' });
+    }
+
+    const admin = await Admin.findOne({ email });
+    if (!admin) return res.status(404).json({ message: 'Admin not found' });
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    admin.password = hashed;
+    await admin.save();
+
+    res.json({ message: '✅ Password updated successfully' });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+
+
 
 // In adminRoutes.js (only temporarily)
 // router.get('/create-admin', async (req, res) => {
